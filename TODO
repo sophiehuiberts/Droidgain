@@ -1,0 +1,3 @@
+todo:
+implement queryUserForClipping
+implement error reporting (rg_error.c)

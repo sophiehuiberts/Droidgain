@@ -1,0 +1,10 @@
+local.properties
+*~
+.~
+*.kdev4
+gen
+bin
+*.keystore
+*.kate-swp
+debug.sh
+obj
