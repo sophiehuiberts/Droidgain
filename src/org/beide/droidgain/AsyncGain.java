@@ -2,18 +2,24 @@ package org.beide.droidgain;
 
 import android.os.AsyncTask;
 
-public class AsyncGain extends AsyncTask<String, Double, Void> {
+public class AsyncGain extends AsyncTask<String, Boolean, Void> {
 	
 	public Void doInBackground(String... files) {
+		Boolean[] completion = new Boolean[files.length];
 		for(int i = 0; i < files.length; i++) {
-			mp3gain(files[i]);
-			publishProgress(i / files.length);
+			completion[i] = mp3gain(files[i]);
+			publishProgress(completion);
 		}
+		return null;
 	}
 	
-	public void onProgressUpdate(Double... progress) {
+	public void onProgressUpdate(Boolean... progress) {
 		
 	}
 	
-	public native mp3gain(String filename);
+	public native boolean mp3gain(String filename);
+	
+	static {
+		System.loadLibrary("mp3gain");
+	}
 }
