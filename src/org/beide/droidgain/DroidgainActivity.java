@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,6 +20,8 @@ import java.lang.Process;
 import java.lang.Runtime;
 
 public class DroidgainActivity extends Activity {
+	
+	private static final String TAG = "Droidgain";
 	
 	String exec;
 	LinearLayout log;
@@ -100,6 +103,9 @@ public class DroidgainActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * Accepts a InputStream, and puts all content in addToLog().
+	 */
 	public void readOutput(InputStream is) {
 		try {
 			ByteArrayOutputStream bo = new ByteArrayOutputStream();
@@ -116,8 +122,12 @@ public class DroidgainActivity extends Activity {
 			}
 			addToLog(bo.toString());
 		} catch (IOException e) {}
+		return null;
 	}
 	
+	/**
+	 * Adds all input to the log view
+	 */
 	public void addToLog(String str) {
 		TextView tv = new TextView(context);
 		tv.setText(str);
