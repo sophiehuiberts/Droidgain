@@ -16,12 +16,15 @@ import java.lang.Runtime;
 
 public class DroidgainActivity extends Activity {
 	
+	String exec;
 	String url;
 	LinearLayout column;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		exec = getApplicationContext().getFilesDir().getPath() + "/mp3gain";
 		
 		Button BtnPick = new Button(getApplicationContext());
 		BtnPick.setText("Pick");
@@ -56,7 +59,7 @@ public class DroidgainActivity extends Activity {
 	
 	public void mp3gain(String file) {
 		try {
-			Process process = Runtime.getRuntime().exec(["/sdcard/mp3gain", file]);
+			Process process = Runtime.getRuntime().exec(new String[]{exec, file});
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
