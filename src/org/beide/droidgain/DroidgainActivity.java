@@ -24,12 +24,15 @@ public class DroidgainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		//TODO: put the executable there
 		exec = getApplicationContext().getFilesDir().getPath() + "/mp3gain";
 		
 		Button BtnPick = new Button(getApplicationContext());
 		BtnPick.setText("Pick");
 		BtnPick.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				
+				//TODO: implement own file-chooser
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
 				intent.setType("audio/mpeg");
@@ -60,6 +63,7 @@ public class DroidgainActivity extends Activity {
 	public void mp3gain(String file) {
 		try {
 			Process process = Runtime.getRuntime().exec(new String[]{exec, file});
+			//TODO: monitor output
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
