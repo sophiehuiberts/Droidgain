@@ -122,7 +122,6 @@ public class DroidgainActivity extends Activity {
 			}
 			addToLog(bo.toString());
 		} catch (IOException e) {}
-		return null;
 	}
 	
 	/**
