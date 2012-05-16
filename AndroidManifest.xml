@@ -4,7 +4,8 @@
       android:versionCode="1"
       android:versionName="1.0">
     <application android:label="Droidgain">
-        <activity android:name="DroidgainActivity"
+			<activity android:name="DroidgainActivity"
+			android:icon="@drawable/icon"
                   android:label="Droidgain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
