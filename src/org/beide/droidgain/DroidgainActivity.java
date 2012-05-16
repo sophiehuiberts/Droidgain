@@ -61,8 +61,9 @@ public class DroidgainActivity extends Activity {
 		ScrollView scroll = new ScrollView(context);
 		scroll.addView(log);
 		addToLog("Welcome to Droidgain.");
-		addToLog("If you have any problems, feel free to contact me at");
-		addToLog("itissohardtothinkofagoodemail@gmail.com");
+		addToLog("If you have any problems, feel free to contact");
+		addToLog("me at itissohardtothinkofagoodemail@gmail.com");
+		addToLog("Executable location: " + exec);
 		
 		LinearLayout root = new LinearLayout(context);
 		root.setOrientation(LinearLayout.VERTICAL);
@@ -78,6 +79,10 @@ public class DroidgainActivity extends Activity {
 	 * Will be deprecated as soon as the file-browser is coded.
 	 */
 	public void onActivityResult(int request, int result, Intent data) {
+		if(data == null) {
+			return;
+		}
+		
 		Uri uri = data.getData();
 		
 		if(uri.getScheme().compareTo("file") == 0) {
@@ -96,9 +101,16 @@ public class DroidgainActivity extends Activity {
 	 */
 	public void mp3gain(String file) {
 		try {
-			Process process = Runtime.getRuntime().exec(new String[]{exec, file});
-			readOutput(process.getInputStream());
-		} catch(IOException e) {
+			addToLog("Normalizing " + file);
+			Process process = new ProcessBuilder()
+			.command(exec, "-r", file)
+			.redirectErrorStream(true)
+			.start();
+			new Output(this).execute(process.getInputStream());
+			//readOutput(p.getErrorStream());
+			process.waitFor();
+			addToLog(file + " done.");
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -118,8 +130,10 @@ public class DroidgainActivity extends Activity {
 				} else {
 					bo.write(i);
 					i = is.read();
+					Log.v(TAG, bo.toString());
 				}
 			}
+			Log.v(TAG, "Stream ended.");
 			addToLog(bo.toString());
 		} catch (IOException e) {}
 	}
@@ -132,5 +146,7 @@ public class DroidgainActivity extends Activity {
 		tv.setText(str);
 		
 		log.addView(tv);
+		
+		Log.i(TAG, str);
 	}
 }
