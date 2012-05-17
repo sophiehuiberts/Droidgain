@@ -114,21 +114,17 @@ public class DroidgainActivity extends Activity {
 	 * Will be deprecated as soon as the file-browser is coded.
 	 */
 	public void onActivityResult(int request, int result, Intent data) {
+		Log.v(TAG, "Got result");
+		
 		if(data == null) {
+			Log.v(TAG, "Got null :(");
 			return;
 		}
 		
 		Uri uri = data.getData();
 		
-		if(uri.getScheme().compareTo("file") == 0) {
-			
-			String schemepart = uri.getSchemeSpecificPart();
-			if(schemepart.substring(0, 2).compareTo("//") == 0) {
-				mp3gain(schemepart.substring(2));
-			} else {
-				mp3gain(schemepart);
-			}
-		}
+		String path = uri.getPath();
+		mp3gain(path);
 	}
 	
 	/**
