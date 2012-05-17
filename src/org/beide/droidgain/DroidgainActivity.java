@@ -3,6 +3,7 @@ package org.beide.droidgain;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,10 @@ import android.widget.TextView;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.lang.Process;
 import java.lang.Runtime;
 
@@ -39,9 +44,6 @@ public class DroidgainActivity extends Activity {
 		
 		context = getApplicationContext();
 		
-		//TODO: put the executable there
-		exec = getApplicationContext().getFilesDir().getPath() + "/mp3gain";
-		
 		Button BtnPick = new Button(context);
 		BtnPick.setText("Pick");
 		BtnPick.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +65,40 @@ public class DroidgainActivity extends Activity {
 		addToLog("Welcome to Droidgain.");
 		addToLog("If you have any problems, feel free to contact");
 		addToLog("me at itissohardtothinkofagoodemail@gmail.com");
-		addToLog("Executable location: " + exec);
+		
+		exec = getApplicationContext().getFilesDir().getPath() + "/mp3gain";
+		File f = new File(exec);
+		if(! f.exists()) {
+			addToLog("Executable not found. Placing it now.");
+			try {
+				// From the ApiDemos
+				InputStream is = getResources().openRawResource(R.raw.mp3gain);
+				int size = is.available();
+				
+				byte[] buffer = new byte[size];
+				is.read(buffer);
+				is.close();
+				
+				OutputStream out;
+				out = new BufferedOutputStream(new FileOutputStream(f));
+				out.write(buffer);
+				out.close();
+				out = null;
+				
+				if(!f.setExecutable(true)) {
+					addToLog("Could not get permission.");
+				} else {
+					addToLog("Setup done.");
+				}
+				
+				
+			} catch(Exception e) {
+				addToLog("Ooops, The application is broken!");
+				e.printStackTrace();
+				addToLog(e.getMessage());
+				addToLog(e.toString());
+			}
+		}
 		
 		LinearLayout root = new LinearLayout(context);
 		root.setOrientation(LinearLayout.VERTICAL);
@@ -101,7 +136,7 @@ public class DroidgainActivity extends Activity {
 	 */
 	public void mp3gain(String file) {
 		try {
-			addToLog("Normalizing " + file);
+			addToLog(file);
 			Process process = new ProcessBuilder()
 			.command(exec, "-r", file)
 			.redirectErrorStream(true)
@@ -109,8 +144,9 @@ public class DroidgainActivity extends Activity {
 			new Output(this).execute(process.getInputStream());
 			//readOutput(p.getErrorStream());
 			process.waitFor();
-			addToLog(file + " done.");
+			addToLog("Done.");
 		} catch(Exception e) {
+			addToLog("Failed :(");
 			e.printStackTrace();
 		}
 	}
