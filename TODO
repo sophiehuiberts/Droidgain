@@ -2,3 +2,5 @@ todo:
 implement queryUserForClipping
 implement error reporting (rg_error.c)
 lower api level requirement by removing f.setExecutable()
+improve error messages
+resolve the activity stacking bug
