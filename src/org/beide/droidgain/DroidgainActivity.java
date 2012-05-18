@@ -135,7 +135,7 @@ public class DroidgainActivity extends Activity {
 		try {
 			addToLog(file);
 			Process process = new ProcessBuilder()
-			.command(exec, "-r", file)
+			.command(exec, "-rc", file)
 			.redirectErrorStream(true)
 			.start();
 			new Output(this).execute(process.getInputStream());
