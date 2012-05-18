@@ -30,6 +30,7 @@ public class DroidgainActivity extends Activity {
 	
 	String exec;
 	LinearLayout log;
+	ScrollView scroll;
 	
 	Context context;
 	
@@ -60,7 +61,7 @@ public class DroidgainActivity extends Activity {
 		log = new LinearLayout(context);
 		log.setOrientation(LinearLayout.VERTICAL);
 		
-		ScrollView scroll = new ScrollView(context);
+		scroll = new ScrollView(context);
 		scroll.addView(log);
 		addToLog("Welcome to Droidgain.");
 		addToLog("If you have any problems, feel free to contact");
@@ -138,9 +139,7 @@ public class DroidgainActivity extends Activity {
 			.redirectErrorStream(true)
 			.start();
 			new Output(this).execute(process.getInputStream());
-			//readOutput(p.getErrorStream());
-			process.waitFor();
-			addToLog("Done.");
+			new Waiter().execute(this, process);
 		} catch(Exception e) {
 			addToLog("Failed :(");
 			e.printStackTrace();
@@ -178,6 +177,8 @@ public class DroidgainActivity extends Activity {
 		tv.setText(str);
 		
 		log.addView(tv);
+		
+		scroll.fullScroll(ScrollView.FOCUS_DOWN);
 		
 		Log.i(TAG, str);
 	}
