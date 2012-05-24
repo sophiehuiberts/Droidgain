@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ public class DroidgainActivity extends Activity {
 	String exec;
 	LinearLayout log;
 	ScrollView scroll;
+	EditText edittext;
 	
 	Context context;
 	
@@ -101,9 +103,16 @@ public class DroidgainActivity extends Activity {
 			}
 		}
 		
+		edittext = new EditText(context);
+		edittext.setText("0", TextView.BufferType.EDITABLE);
+		
+		LinearLayout input = new LinearLayout(context);
+		input.addView(BtnPick);
+		input.addView(edittext);
+		
 		LinearLayout root = new LinearLayout(context);
 		root.setOrientation(LinearLayout.VERTICAL);
-		root.addView(BtnPick);
+		root.addView(input);
 		root.addView(scroll);
 		
 		setContentView(root);
@@ -135,7 +144,7 @@ public class DroidgainActivity extends Activity {
 		try {
 			addToLog(file);
 			Process process = new ProcessBuilder()
-			.command(exec, "-r", "-c", file)
+			.command(exec, "-r", "-c", "-d", edittext.getText().toString(), file)
 			.redirectErrorStream(true)
 			.start();
 			new Output(this).execute(process.getInputStream());
