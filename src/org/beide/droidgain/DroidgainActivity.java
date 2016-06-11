@@ -66,8 +66,9 @@ public class DroidgainActivity extends Activity {
 		scroll = new ScrollView(context);
 		scroll.addView(log);
 		addToLog("Welcome to Droidgain.");
-		addToLog("If you have any problems, feel free to contact");
-		addToLog("me at itissohardtothinkofagoodemail@gmail.com");
+		addToLog("If you have any problems, too bad. I suggest");
+		addToLog("you try some other app. Just search for ");
+		addToLog("mp3 gain in the Play store.");
 		
 		exec = getApplicationContext().getFilesDir().getPath() + "/mp3gain";
 		File f = new File(exec);
